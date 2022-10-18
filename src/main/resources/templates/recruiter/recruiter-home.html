@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        
+        <title>Home</title>
+    </head>
+
+      
+       <body class="p-3 mb-2 bg-light text-black">
+
+		    <nav th:replace="navbar-recruiter-home :: navbar-fragment"></nav>
+         
+            <div id="contentDiv" style="clear: right;">
+              
+                <div class="tab-content" id="nav-tabContent">
+                      <div class="tab-pane fade" id="nav-job-seekers"  role="tabpanel" aria-labelledby="nav-job-seekers-tab">  
+                           <div class="form-row">
+							      <div class="form-group col-md-6">
+               	                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="searchJobSeekerModal()">
+                           				 + Search for Candidate
+                      					</button> 
+                                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" >
+                                         + Clear results
+                                      </button>       	
+						      	  </div>	                  
+						   </div> 
+                                                    
+                        <div class="container">
+                        
+			              <div class="row">
+									    <div class="col-md-12">
+									        <div class="card">
+									            <div class="card-body">
+									                <h5 class="card-title text-uppercase mb-0">Active Jobs</h5>
+									            </div>
+									            <div class="table-responsive">
+									                <table class="table no-wrap user-table mb-0">
+									                  <thead>
+									                    <tr>
+									                      <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Name</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Position</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Location</th>		                      
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Skill Level:</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Date Joined:</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Contact Info</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Save</th>
+<!-- 									                      <th scope="col" class="border-0 text-uppercase font-medium">Disable</th>
+ -->									                      
+									                    </tr>
+									                  </thead>
+									          
+									                  <tbody>
+						                                <tr th:each = "jobSeekerTemp, iterStat : ${jobSeekerUsers}">
+						                                   
+						                                    <th  th:text = "${iterStat.index + 1}" scope="row"></th>
+						                                    <td>
+						                                    <span th:text = "${jobSeekerTemp.firstName}"> </span> 
+						                                    <span th:text = "${jobSeekerTemp.lastName}"> </span>
+						                                    </td>
+						                                    <td th:text = "${jobSeekerTemp.accountType.userType}" ></td>
+						                                    
+						                                    <td>
+									                          <!-- <h5  class="font-medium mb-0">
+										                          <span th:text = "${jobSeekerTemp.userDetail.addres.city}"></span>,
+										                          <span th:text = "${jobSeekerTemp.userDetail.addres.State}" class="text-muted"></span>              
+									                          </h5> -->
+									                        </td>
+									                      <!--   <td th:text = "${.dateCreated}" ></td> -->
+									                        <td th:text = "${jobSeekerTemp.createdAt}" ></td>									                       
+						                                    <td><button type="button" class="btn btn-outline-info btn-circle btn-lg btn-circle"><i class="fa fa-edit"></i> </button></td>
+						                                    <td>
+						                                   <!--  <form method="POST" th:action="@{/recruiter/deleteJobPost (jobPostid=${jobPostTemp.jobPostId})}">
+						                                         <button type="submit" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i class="fa fa-trash"></i></button>
+                                                            </form> 
+                                                            </td>
+                                                            <td>
+						                                    <form method="POST" th:action="@{/recruiter/disableJobPost (jobPostid=${jobPostTemp.jobPostId})}">
+						                                         <button type="submit" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i class="fa fa-ban"></i></button>
+                                                            </form>  -->
+                                                            </td>
+	                                                    </tr>
+						                                </tbody>
+									         
+									                </table>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+						 </div> 
+						 <div class="modal fade" id="searchJobSeekerModal" tabindex="-1" role="dialog" aria-labelledby="searchJobSeekerModalLabel" th:object = "${jobSeeker}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="searchJobSeekerModalLabel">Search for candidate</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                     <div class="modal-body">
+                                        <form action = "#" th:action="@{/recruiter/searchJobSeeeker}"  method="GET">
+                                            <input type="hidden"  name="jobSeekerId" id="jobSeekerId">
+                                                                                                  
+							                  <div class="form-row">
+							                    <div class="form-group col-md-6">
+							                          <label for="jobSeeker-firstName" class="col-form-label">Search by last Name:</label>
+                                                      <input type="text" name= "jobSeekerFirstName" class="form-control" id="jobSeeker-firstNameId" th:field = "*{lastName}" maxlength="25"  >
+							                    </div>	                  
+							                  </div>
+							                 <!--  <div class="form-row">
+							                    <div class="form-group col-md-6">
+							                          <label for="jobSeeker-firstName" class="col-form-label">Search by Last Name:</label>
+                                                      <input type="text" name= "jobSeekerFirstName" class="form-control" id="jobSeeker-firstNameId" th:field = "*{lastName}" maxlength="25"  >
+							                    </div>	                    
+							                  </div>
+							                   <div class="form-row">
+							                    <div class="form-group col-md-6">
+							                          <label for="jobSeeker-firstName" class="col-form-label">Search by Position:</label>
+                                                      <input type="text" name= "jobSeekerFirstName" class="form-control" id="jobSeeker-firstNameId" th:field = "*{position}" maxlength="25"  >
+							                    </div>	                    
+							                  </div>
+							                  <div class="form-row">
+							                    <div class="form-group col-md-6">
+							                          <label for="jobSeeker-firstName" class="col-form-label">Search by City:</label>
+                                                      <input type="text" name= "jobSeekerFirstName" class="form-control" id="jobSeeker-firstNameId" th:field = "*{userDetail.city}" maxlength="25"  >
+							                    </div>	                    
+							                  </div>
+							                   <div class="form-row">
+							                    <div class="form-group col-md-6">
+							                          <label for="jobSeeker-firstName" class="col-form-label">Search by Zip Code:</label>
+                                                      <input type="text" name= "jobSeekerFirstName" class="form-control" id="jobSeeker-firstNameId" th:field = "*{userDetail.zipCode}" maxlength="25"  >
+							                    </div>	                    
+							                  </div>
+							                   <div class="form-row">
+							                    <div class="form-group col-md-6">
+							                          <label for="jobSeeker-firstName" class="col-form-label">Search by Date Joined:</label>
+                                                      <input type="text" name= "jobSeekerFirstName" class="form-control" id="jobSeeker-firstNameId" th:field = "*{firstName}" maxlength="25"  >
+							                    </div>	                    
+							                  </div>
+							                   <div class="form-row">
+							                    <div class="form-group col-md-6">
+							                          <label for="jobSeeker-firstName" class="col-form-label">Search by Skill level:</label>
+                                                      <input type="text" name= "jobSeekerFirstName" class="form-control" id="jobSeeker-firstNameId" th:field = "*{firstName}" maxlength="25"  >
+							                    </div>	                    
+							                  </div>
+                                      -->
+                                            <button id="searchSubmit" type="submit" class="d-none"></button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="$('#searchSubmit').click();">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                
+                    </div>
+                    
+                                <!-- NAV BAR RECRUITER HOME -->
+                    
+                    <div class="tab-pane fade" id="nav-recruiters"  role="tabpanel" aria-labelledby="nav-recruiters-tab">
+                        <div class="container">
+			              <div class="row">
+									    <div class="col-md-12">
+									        <div class="card">
+									            <div class="card-body">
+									                <h5 class="card-title text-uppercase mb-0">Recruiters</h5>
+									            </div>
+									            <div class="table-responsive">
+									                <table class="table no-wrap user-table mb-0">
+									                  <thead>
+									                    <tr>
+									                      <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Name</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Position</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Location</th>		                      
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Skill Level:</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Date Joined:</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Contact Info</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Save</th>
+<!-- 									                      <th scope="col" class="border-0 text-uppercase font-medium">Disable</th>
+ -->									                      
+									                    </tr>
+									                  </thead>
+									          
+									                  <tbody>
+						                                <tr th:each = "recruiterTemp, iterStat : ${recruiterUsers}">
+						                                   
+						                                    <th  th:text = "${iterStat.index + 1}" scope="row"></th>
+						                                    <td>
+						                                    <span th:text = "${recruiterTemp.firstName}"> </span> 
+						                                    <span th:text = "${recruiterTemp.lastName}"> </span>
+						                                    </td>
+						                                    <td th:text = "${recruiterTemp.accountType.userType}" ></td>
+						                                    
+						                                    <td>
+									                        
+									                        </td>
+									                      <!--   <td th:text = "${.dateCreated}" ></td> -->
+									                        <td th:text = "${recruiterTemp.createdAt}" ></td>									                       
+						                                    <td><button type="button" class="btn btn-outline-info btn-circle btn-lg btn-circle"><i class="fa fa-edit"></i> </button></td>
+						                                    <td>		                                
+                                                            </td>
+	                                                    </tr>
+						                                </tbody>
+									         
+									                </table>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+						 </div> 
+<!-- 						 JobSearch Modal 
+ -->						 
+ 							               
+                    </div>
+                    
+                    
+                                  <!-- ACTIVE JOBS HOME -->
+                    
+                    <div class="tab-pane fade" id="nav-active-jobs" th:object = "${jobPost}" role="tabpanel" aria-labelledby="nav-active-jobs-tab">
+                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showAddNewJobModal()">
+                            + Add a New Job
+                        </button>
+                        <div class="container">
+			              <div class="row">
+									    <div class="col-md-12">
+									        <div class="card">
+									            <div class="card-body">
+									                <h5 class="card-title text-uppercase mb-0">Active Jobs</h5>
+									            </div>
+									            <div class="table-responsive">
+									                <table class="table no-wrap user-table mb-0">
+									                  <thead>
+									                    <tr>
+									                      <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Position</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Salary</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Location</th>		                      
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Added</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Skills Level:</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Edit</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Delete</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Disable</th>
+									                      
+									                    </tr>
+									                  </thead>
+									          
+									                  <tbody>
+						                                <tr th:each = "jobPostTemp, iterStat : ${jobActivePosts}">
+						                                   
+						                                    <th  th:text = "${iterStat.index + 1}" scope="row"></th>
+						                                    <td  th:text = "${jobPostTemp.jobPositionName}"></td>
+						                                    <td th:text = "${jobPostTemp.jobDetails.salary}" ></td>
+						                                    
+						                                    <td>
+									                          <h5  class="font-medium mb-0">
+										                          <span th:text = "${jobPostTemp.jobLocation.city}"></span>,
+										                          <span th:text = "${jobPostTemp.jobLocation.State}" class="text-muted"></span>              
+									                          </h5>
+									                        </td>
+									                        <td th:text = "${jobPostTemp.dateCreated}" ></td>
+									                        <td th:text = "${jobPostTemp.jobDetails.skillLevel.name}" ></td>									                       
+						                                    <td><button type="button" class="btn btn-outline-info btn-circle btn-lg btn-circle"><i class="fa fa-edit"></i> </button></td>
+						                                    <td>
+						                                    <form method="POST" th:action="@{/recruiter/deleteJobPost (jobPostid=${jobPostTemp.jobPostId})}">
+						                                         <button type="submit" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i class="fa fa-trash"></i></button>
+                                                            </form> 
+                                                            </td>
+                                                            <td>
+						                                    <form method="POST" th:action="@{/recruiter/disableJobPost (jobPostid=${jobPostTemp.jobPostId})}">
+						                                         <button type="submit" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i class="fa fa-ban"></i></button>
+                                                            </form> 
+                                                            </td>
+	                                                    </tr>
+						                                </tbody>
+									         
+									                </table>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+						 </div>
+		                        
+
+                        <div class="modal fade" id="jobActiveModal" tabindex="-1" role="dialog" aria-labelledby="jobActiveModalLabel" th:object = "${jobPost}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="jobActiveModalLabel">Job</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                     <div class="modal-body">
+                                        <form action = "#" th:action="@{/recruiter/createNewJobPost}"  method="POST">
+                                            <input type="hidden"  name="jobId" id="job-id">
+                                            
+                                            
+                                            
+							                  <div class="form-row">
+							                    <div class="form-group col-md-6">
+							                          <label for="job-position" class="col-form-label">Position:</label>
+                                                      <input type="text" name= "position" class="form-control" id="job-position" th:field = "*{jobPositionName}" maxlength="25"  required>
+							                    </div>
+							                    <div class="form-group col-md-6">
+                                                     <label for="job-salary" class="col-form-label">Salary</label>
+                                                     <input type="text" name= "salary" class="form-control" id="job-salary" maxlength="30" th:field = "*{jobDetails.salary}" required>
+                                                </div>
+							                  </div>
+							                
+                                             <div class="form-row">
+							                    <div class="form-group col-md-6">
+                                                     <label for="job-city" class="col-form-label">City</label>
+                                                     <input type="text" name= "city" class="form-control" id="job-city" th:field = "*{jobLocation.city}" maxlength="30"  required>
+                                                </div>
+							                    <div class="form-group col-md-6">
+							                          <label for="job-zipcode" class="col-form-label">Zip Code</label>
+                                                      <input type="text" name= "zipCode" class="form-control" id="job-zipcode" maxlength="30" th:field = "*{jobLocation.zipCode}" required>
+							                       
+							                    </div>
+							                 </div>
+                                         
+                                            
+                                            <div class="form-group">
+                                             <label for="job-state">State:</label>
+											      <select name= "state"  th:field =  "*{jobLocation.state}"  id="job-state" class="form-control">
+											        <option th:each = "state : ${T(com.aabdenbaoui.management.entity.enums.State).values()}"
+											                 th:value = "${state}" th:text="${state.name}"></option>
+											      </select>
+                                               
+                                            </div>
+                                           
+                                            
+                                             <div class="form-group">
+						                        <label for="job-type">Please choose Job Type:</label>
+											      <select  th:field =  "*{jobDetails.jobTypeName}"  id="job-type" class="form-control">
+											        <option th:each = "jobTypeName : ${T(com.aabdenbaoui.management.entity.enums.EnumJobType).values()}"
+											                 th:value = "${jobTypeName}" th:text="${jobTypeName.name}"></option>
+											      </select>
+											      </div>
+											      <!-- <div class="help-block" th:if="${#fields.hasErrors('accountType')}">
+						                            <p th:errors= "*{accountType}" class="text-danger">UserType  error</p>
+						                        </div> -->
+						                        <div class="form-group">
+						                        <label for="job-type">Please choose Skill Level:</label>
+											      <select  th:field =  "*{jobDetails.skillLevel}"  id="job-type" class="form-control">
+											        <option th:each = "skillLevel : ${T(com.aabdenbaoui.management.entity.enums.SkillsLevelEnum).values()}"
+											                 th:value = "${skillLevel}" th:text="${skillLevel.name}"></option>
+											      </select>
+											      </div>
+                                            <div class="form-group">
+                                                <label for="job-description" class="col-form-label">Job Description</label>
+                                                <textarea class="form-control" name="jobDescription" id="job-description" rows="5" maxlength="1000" th:field = "*{jobDescription}"  ></textarea>
+                                            </div>
+                                           <div class="form-group">
+                                                <label for="job-skills" class="col-form-label">Qualification</label>
+                                                <textarea class="form-control" name="notSills" id="job-skills" rows="5" maxlength="1000"   ></textarea>
+                                            </div>
+                                            <button id="credentialSubmit" type="submit" class="d-none"></button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Disabled Jobs Page -->
+                    <div class="tab-pane fade" id="nav-disabled-jobs" th:object = "${jobPost}" role="tabpanel" aria-labelledby="nav-disabled-jobs-tab">
+                        <!-- <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showDisabledJobModal()">
+                            + Add a New Job
+                        </button> -->
+                        <div class="container">
+			              <div class="row">
+									    <div class="col-md-12">
+									        <div class="card">
+									            <div class="card-body">
+									                <h5 class="card-title text-uppercase mb-0">Disabled Jobs</h5>
+									            </div>
+									            <div class="table-responsive">
+									                <table class="table no-wrap user-table mb-0">
+									                  <thead>
+									                    <tr>
+									                      <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Position</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Salary</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Location</th>		                      
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Added</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Skills Level:</th>								                   
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Edit</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Delete</th>
+									                      <th scope="col" class="border-0 text-uppercase font-medium">Enable</th>
+									                      
+									                    </tr>
+									                  </thead>
+									          
+									                  <tbody>
+						                                <tr th:each = "jobPostTemp, iterStat: ${jobDisabledPosts}">
+						                                    
+						                                    <th  th:text = "${iterStat.index + 1}" scope="row"></th>
+						                                    <td  th:text = "${jobPostTemp.jobPositionName}"></td>
+						                                    <td th:text = "${jobPostTemp.jobDetails.salary}" ></td>
+						                                    
+						                                    <td>
+									                          <h5  class="font-medium mb-0">
+										                          <span th:text = "${jobPostTemp.jobLocation.city}"></span>,
+										                          <span th:text = "${jobPostTemp.jobLocation.State}" class="text-muted"></span>              
+									                          </h5>
+									                        </td>
+									                        <td th:text = "${jobPostTemp.dateCreated}" ></td>
+									                        <td th:text = "${jobPostTemp.jobDetails.skillLevel.name}" ></td>
+						                                    <td><button type="button" class="btn btn-outline-info btn-circle btn-lg btn-circle"><i class="fa fa-edit"></i> </button></td>
+						                                    <td>
+						                                    <form method="POST" th:action="@{/recruiter/deleteJobPost (jobPostid=${jobPostTemp.jobPostId})}">
+						                                         <button type="submit" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i class="fa fa-trash"></i></button>
+                                                            </form> 
+                                                            </td>
+                                                            <td>
+						                                    <form method="POST" th:action="@{/recruiter/enableJobPost (jobPostid=${jobPostTemp.jobPostId})}">
+						                                         <button type="submit" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i class="fa fa-toggle-on"></i></button>
+                                                            </form> 
+                                                            </td>	                                     
+						                                </tr>
+						                                </tbody>
+									         
+									                </table>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+						 </div>
+		                        
+
+                        <div class="modal fade" id="jobDisabledModal" tabindex="-1" role="dialog" aria-labelledby="jobDisabledModalLabel" th:object = "${jobPost}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="jobDisabledModalLabel">Job</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                     <div class="modal-body">
+                                        <form action = "#" th:action="@{/recruiter/createNewJobPost}"  method="POST">
+                                            <input type="hidden"  name="jobId" id="job-id">
+                                            
+                                            
+                                            
+							                  <div class="form-row">
+							                    <div class="form-group col-md-6">
+							                          <label for="job-position" class="col-form-label">Position:</label>
+                                                      <input type="text" name= "position" class="form-control" id="job-position" th:field = "*{jobPositionName}" maxlength="25"  required>
+							                    </div>
+							                    <div class="form-group col-md-6">
+                                                     <label for="job-salary" class="col-form-label">Salary</label>
+                                                     <input type="text" name= "salary" class="form-control" id="job-salary" maxlength="30" th:field = "*{jobDetails.salary}" required>
+                                                </div>
+							                  </div>
+							                
+                                             <div class="form-row">
+							                    <div class="form-group col-md-6">
+                                                     <label for="job-city" class="col-form-label">City</label>
+                                                     <input type="text" name= "city" class="form-control" id="job-city" th:field = "*{jobLocation.city}" maxlength="30"  required>
+                                                </div>
+							                    <div class="form-group col-md-6">
+							                          <label for="job-zipcode" class="col-form-label">Zip Code</label>
+                                                      <input type="text" name= "zipCode" class="form-control" id="job-zipcode" maxlength="30" th:field = "*{jobLocation.zipCode}" required>
+							                       
+							                    </div>
+							                 </div>
+                                         
+                                            
+                                            <div class="form-group">
+                                             <label for="job-state">State:</label>
+											      <select name= "state"  th:field =  "*{jobLocation.state}"  id="job-state" class="form-control">
+											        <option th:each = "state : ${T(com.aabdenbaoui.management.entity.enums.State).values()}"
+											                 th:value = "${state}" th:text="${state.name}"></option>
+											      </select>
+                                               
+                                            </div>
+                                           
+                                            
+                                             <div class="form-group">
+						                        <label for="job-type">Please choose Job Type:</label>
+											      <select  th:field =  "*{jobDetails.jobTypeName}"  id="job-type" class="form-control">
+											        <option th:each = "jobTypeName : ${T(com.aabdenbaoui.management.entity.enums.EnumJobType).values()}"
+											                 th:value = "${jobTypeName}" th:text="${jobTypeName.name}"></option>
+											      </select>
+											      </div>
+											      <!-- <div class="help-block" th:if="${#fields.hasErrors('accountType')}">
+						                            <p th:errors= "*{accountType}" class="text-danger">UserType  error</p>
+						                        </div> -->
+						                        <div class="form-group">
+						                        <label for="job-type">Please choose Skill Level:</label>
+											      <select  th:field =  "*{jobDetails.skillLevel}"  id="job-type" class="form-control">
+											        <option th:each = "skillLevel : ${T(com.aabdenbaoui.management.entity.enums.SkillsLevelEnum).values()}"
+											                 th:value = "${skillLevel}" th:text="${skillLevel.name}"></option>
+											      </select>
+											      </div>
+                                            <div class="form-group">
+                                                <label for="job-description" class="col-form-label">Job Description</label>
+                                                <textarea class="form-control" name="jobDescription" id="job-description" rows="5" maxlength="1000" th:field = "*{jobDescription}"  ></textarea>
+                                            </div>
+                                           <div class="form-group">
+                                                <label for="job-skills" class="col-form-label">Qualification</label>
+                                                <textarea class="form-control" name="notSills" id="job-skills" rows="5" maxlength="1000"   ></textarea>
+                                            </div>
+                                            <button id="credentialSubmit" type="submit" class="d-none"></button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
+                        
+                    </div>
+              </div>
+            </div>
+        </div>
+
+    </body>
+</html>

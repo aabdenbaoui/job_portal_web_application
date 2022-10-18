@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+    <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+
+        <title>Experience Information:</title>
+    </head>
+    <body class="p-3 mb-2 bg-light text-black">
+        <div class="container justify-content-center w-50 p-3" style="background-color: #eeeeee; margin-top: 5em;">
+            <div class="form-group">
+                <label><a th:href = "@{/jobseeker/experiences}">Back to Experiences List</a></label>
+            </div>
+
+       <div class="alert alert-danger" role="alert"  th:if="${error}">
+                      <span>Please fix the errors below</span>
+                      </div>
+            <h1 class="display-5">Please complete your experience infomation</h1>
+            <form th:action = "@{/jobseeker/saveExperience}" method="POST" th:object ="${experience}">
+                   <input type="hidden"  name="experienceId"  th:field = "*{experienceDetailId}" id="experience-id">
+                    
+                 <div class="form-row">
+				  <span>Is this your current Job?:</span>
+                  <div class="custom-control custom-radio custom-control-inline">
+			                <input type="radio" id="option1" name="option1" class="custom-control-input" value="true" th:field= "${experience.currentJob}" required>
+			                <label class="custom-control-label" for="option1">Yes</label>
+			            </div>
+			            <div class="custom-control custom-radio custom-control-inline">
+			                <input type="radio" id="option2" name="option2" class="custom-control-input" value="false"  th:field= "${experience.currentJob}" required >
+			                <label class="custom-control-label" for="option2">No</label>
+			            </div>           
+                   </div>  
+                   <div class= "form-row">
+                         <div class="form-group col-md-4">
+                          <label for="inputStartDate">Start Date</label>
+  						  <input type="date" name= "experienceStartDate" class="form-control" th:field= "*{timeLine.startDate}" id="experienceStartDateId" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                          <label for="inputEndDate">End Date</label>
+  						  <input type="date" name= "experienceEndDate" class="form-control" th:field= "*{timeLine.endDate}" id="experienceEndDateId" required>
+  						 
+                    </div>
+                     <div class="form-group col-md-4" style="margin-top: 2.5em;">
+                         <p th:errors= "*{timeLine}" class="text-danger">time error</p>
+                    </div>
+                   </div>  
+                   <div class= "form-row">
+                         <div class="form-group col-md-4">
+	                          <label for="inputStartDate">Job Title</label>
+	  						  <input type="text" name= "ExperienceJobTitle" class="form-control" th:field= "*{jobTitle}" id="ExperienceJobTitleId" required>
+                         </div>
+                         <div class="form-group col-md-4">
+	                          <label for="inputJobSalary">Job Salary</label>
+	  						  <input type="text" name= "experienceSalary" class="form-control" th:field = "*{salary}" id="experienceExperienceId" required>	 
+                       </div>
+                    </div>
+                    <div class= "form-row">
+                         <div class="form-group col-md-4">
+	                          <label for="inputStartDate">Work Experience Descriptions:</label>
+	  						  <input type="text" name= "workExperienceDescription" class="form-control" th:field= "*{workExperienceDescription}" id="workExperienceDescriptioneId" required>
+                         </div>
+                         
+                    </div>
+                   <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <label for="inputCompanyCity">Company</label>
+  						  <input type="text" name= "experienceCompanyName" class="form-control" th:field = "*{experienceCompany.companyName}" id="experienceCompanyNameId" required>	 
+                       </div>   
+                       <div class="form-group col-md-8">
+                          <label for="inputDesciption">Street Address</label>
+  						  <input type="text" name= "experienceStreetAddress" class="form-control" th:field = "*{experienceCompany.experienceCompanyAddress.streetAddress}" id="experienceStreetAddressId" required>	 
+                       </div>
+                   </div>
+               
+                      <div class="form-row">
+                       <div class="form-group col-md-4">
+                        <label for="inputCity">City</label>
+      					<input type="text"  name= "experienceCity"class="form-control"  th:field="*{experienceCompany.experienceCompanyAddress.city}" id="experienceCityId" required>
+      					<!-- <div class="help-block" th:if="${#fields.hasErrors('address.city')}">
+                            <p th:errors= "*{address.city}" class="text-danger">City  error</p>
+                        </div> -->
+                    </div>
+                    <div class="form-group col-md-4">
+                         <label for="inputState">State</label>
+					      <select name= "experienceState" th:field = "*{experienceCompany.experienceCompanyAddress.state}" id="experienceStateId" class="form-control" required>
+					        <option th:each = "state : ${T(com.aabdenbaoui.management.entity.enums.State).values()}"
+					                 th:value = "${state}" th:text="${state.name}"></option>
+					      </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                          <label for="inputZip">Zip Code</label>
+  						  <input type="text" name= "experienceZipCode" class="form-control" th:field= "*{experienceCompany.experienceCompanyAddress.zipCode}" id="experienceZipCodeId" required>
+  						    <div class="help-block" th:if="${#fields.hasErrors('experienceCompany.experienceCompanyAddress.zipCode')}">
+                            <p th:errors= "*{company.companyAddress.zipCode}" class="text-danger">Zip Code  error</p>
+                        </div>
+                    </div>
+                      <div class="form-group">            
+                         <p th:errors= "*{experienceCompany}" class="text-danger">Address error</p>
+                    </div>  
+                 </div>        
+                <button type="submit" class="btn btn-primary" id="buttonSave">Save</button>
+                <button type="reset" class="btn btn-primary" id="buttonSave">Reset</button>
+                
+                
+                <div class="form-group" style="margin-top: 0.9em;">
+                </div>                
+               </form>
+               
+               </div>
+  
+</body>
+</html>

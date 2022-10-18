@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        
+        <title>Home</title>
+    </head>
+
+      
+      <body class="p-3 mb-2 bg-light text-black">
+
+		    <nav th:replace="navbar-jobseeker-home :: navbar-fragment"></nav>
+          <div class="container">
+			<div class="row">
+			    <div class="col-md-12">
+			        <div class="card">
+			            <div class="card-body">
+			                <h5 class="card-title text-uppercase mb-0">Jobs</h5>
+			            </div>
+			            <div class="table-responsive">
+			                <table class="table no-wrap user-table mb-0">
+			                  <thead>
+			                    <tr>
+			                      <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+			                      <th scope="col" class="border-0 text-uppercase font-medium">Position</th>
+			                      <th scope="col" class="border-0 text-uppercase font-medium">Company</th>
+			                      <th scope="col" class="border-0 text-uppercase font-medium">Location</th>		                      
+			                      <th scope="col" class="border-0 text-uppercase font-medium">Added</th>
+<!-- 			                      <th scope="col" class="border-0 text-uppercase font-medium">Years Experience</th>
+ -->			                      <th scope="col" class="border-0 text-uppercase font-medium">Save</th>
+			                      <th scope="col" class="border-0 text-uppercase font-medium">Apply</th>
+			                    </tr>
+			                  </thead>
+			                   <tbody>
+	                                <tr th:each = "jobPostTemp, iterStat : ${jobPosts}">
+	                                   
+	                                    <th  th:text = "${iterStat.index + 1}" scope="row"></th>
+	                                    <td>
+	                                        <span th:text = "${jobPostTemp.jobPositionName}"> </span> 
+                                        </td>
+<!--                                         <td th:text = "${jobPostTemp.company}" ></td>
+ -->                                      <!--   <td>
+                                            <span th:text = "${jobPostTemp.company.companyAddress.city}"></span> 
+                                            <span th:text = "${jobPostTemp.company.companyAddress.state}"> </span>      
+	                                    </td> -->
+	                                    <td th:text = "${jobPostTemp.dateCreated}"></td>
+	                                                           
+				           
+                                         <td> <a th:href="@{/jobseeker/saveJobPost (jobpostid=${jobPostTemp.jobPostId})}" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2">
+			                                  <i class="fa fa-save"></i></a>
+                                         </td>
+                                        <td>
+	                                    <td>
+			                              <button type="button" class="btn btn-outline-info btn-circle btn-lg btn-circle"><i class="fa fa-handshake-o" aria-hidden="true"></i></button>
+			                            </td>             
+                                      </tr> 
+	                                </tbody>
+			              
+			                </table>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+			</div>
+		</div>  
+     
+
+    </body>
+</html>

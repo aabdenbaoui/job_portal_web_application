@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+    <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+        <title>Experiences Information:</title>
+    </head>
+       <body class="p-3 mb-2 bg-light text-black">
+
+		    <nav th:replace="navbar-jobseeker-home :: navbar-fragment"></nav>
+          
+                
+			    <div class="container">
+				<div class="row">
+				    <div class="col-md-12">
+				        <div class="card">
+				         <label style="margin: 0.5em;" ><a th:href = "@{/jobseeker/addexperience}"><i class="fa fa-plus" aria-hidden="true"></i>Add Experience</a></label>
+				         <label style="margin: 0.5em;" ><a th:href = "@{/jobseeker/home}"> <i class="fa fa-arrow-left"></i>Back to Home</a></label>
+				         
+                           <h1 style="margin: 0.5em;" class="display-5">Please complete your Experience infomation</h1>
+				            <div class="card-body">
+				                <h5 class="card-title text-uppercase mb-0">Experiences</h5>
+				            </div>
+				            
+				            <div class="table-responsive">
+				                <table class="table no-wrap user-table mb-0">
+				                  <thead>
+			                    <tr>
+				                      <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+				                      <th scope="col" class="border-0 text-uppercase font-medium">Position</th>
+				                      <th scope="col" class="border-0 text-uppercase font-medium">Company</th>
+				                      <th scope="col" class="border-0 text-uppercase font-medium">Location</th>	
+				                      <th scope="col" class="border-0 text-uppercase font-medium">Salary</th>		                      	                      
+				                      <th scope="col" class="border-0 text-uppercase font-medium">Start Date</th>
+	  		                          <th scope="col" class="border-0 text-uppercase font-medium">End Date</th>
+	  		                          <th scope="col" class="border-0 text-uppercase font-medium">Edit</th>
+	  		                          <th scope="col" class="border-0 text-uppercase font-medium">Delete</th>     
+			                    </tr>
+			                  </thead>
+			                    <tbody>
+	                                <tr th:each = "experienceTemp, iterStat : ${experiences}">
+	                                   
+	                                    <th  th:text = "${iterStat.index + 1}" scope="row"></th>
+	                                    <td>
+	                                        <span th:text = "${experienceTemp.jobTitle}"> </span> 
+                                        </td>
+                                        <td th:text = "${experienceTemp.experienceCompany.companyName}" ></td>
+                                        <td>
+                                            <span th:text = "${experienceTemp.experienceCompany.experienceCompanyAddress.city}"></span> 
+                                            <span th:text = "${experienceTemp.experienceCompany.experienceCompanyAddress.state}"> </span>      
+	                                    </td>
+	                                    <td th:text = "${experienceTemp.salary}"></td>
+	                                    <td th:text = "${experienceTemp.timeLine.startDate}" ></td>
+	                                    <td th:text = "${experienceTemp.timeLine.endDate}" ></td>                             
+				           
+                                         <td> <a th:href="@{/jobseeker/editExperience (experienceid=${experienceTemp.experienceDetailId})}" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i class="fa fa-edit"></i></a>
+                                         </td>
+                                        <td>
+	                                    <form method="POST" th:action="@{/jobseeker/deleteExperience (experienceid=${experienceTemp.experienceDetailId})}">
+	                                         <button type="submit" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i class="fa fa-trash"></i></button>
+                                                       </form>  
+                                         </td>              
+                                      </tr> 
+	                                </tbody>
+			                </table>
+			            </div>
+			        </div>
+			    </div>
+			 </div>
+			</div>
+
+</body>
+</html>

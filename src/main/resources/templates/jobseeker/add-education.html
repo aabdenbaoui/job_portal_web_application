@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+    <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+
+        <title>Education Information:</title>
+    </head>
+    <body class="p-3 mb-2 bg-light text-black">
+        <div class="container justify-content-center w-50 p-3" style="background-color: #eeeeee; margin-top: 5em;">
+        <div class="form-group">
+                <label><a th:href = "@{/jobseeker/educations}">Back to Education List</a></label>
+            </div>
+        
+       <div class="alert alert-danger" role="alert"  th:if="${error}">
+                      <span>Please fix the errors below</span>
+                      </div>
+            <h1 class="display-5">Please complete your education infomation</h1>
+            <form th:action = "@{/jobseeker/saveEducation}" method="POST"  th:object = "${education}" >
+                   <input type="hidden"  th:field = "*{educationDetailId}" name="experienceId" id="education-id">
+                       <div class= "form-row">
+                         <div class="form-group col-md-4">
+	                          <label for="inputStartDate">School name</label>
+	  						  <input type="text" name= "schoolName" class="form-control"  th:field = "*{university_name}" required>
+                         </div>
+                         <div class="form-group col-md-4">
+                          <label for="inputEducationMajor">Degree Awarded:</label>
+					      <select name= "educationMajor" th:field = "*{certificateDegreeName}"   required>
+					        <option th:each = "degree : ${T(com.aabdenbaoui.management.entity.enums.DegreeEnum).values()}"
+					                 th:value = "${degree}" th:text="${degree.degree}"></option>
+					      </select> 
+                       </div>   
+                    </div>
+                   <div class= "form-row">
+                         <div class="form-group col-md-4">
+                          <label for="inputEndDate">Start Date</label>
+  						  <input type="date" name= "educationStartDate" class="form-control" th:field= "*{timeLine.startDate}" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                          <label for="inputStartDate">End Date</label>
+  						  <input type="date" name= "educationEndDate" class="form-control" th:field= "*{timeLine.endDate}" required>
+  						 
+                    </div>
+                     <div class="form-group col-md-4" style="margin-top: 2.5em;">
+                         <p th:errors= "*{timeLine}" class="text-danger">time error</p>
+                    </div>
+                   </div>  
+                 
+                   <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <label for="inputEducationMajor">Major:</label>
+					      <select name= "educationMajor" th:field = "*{major}"  required>
+					        <option th:each = "major : ${T(com.aabdenbaoui.management.entity.enums.Major).values()}"
+					                 th:value = "${major}" th:text="${major.major}"></option>
+					      </select> 
+                       </div>     
+                       <div class="form-group col-md-4">
+                          <label for="inputStartDate">GPA:</label>
+  						  <input type="text" name= "educationCumulativeGpa" class="form-control" th:field= "*{cumulativeGpa}" required>
+  						 
+                    </div>           
+                   </div>
+
+                              
+                <button type="submit" class="btn btn-primary" id="buttonSave">Save</button>
+                <div class="form-group" style="margin-top: 0.9em;">
+                </div>                
+               </form>    
+        </div>
+  
+</body>
+</html>

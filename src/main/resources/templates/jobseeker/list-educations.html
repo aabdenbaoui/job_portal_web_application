@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+    <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+        <title>Educations Information:</title>
+    </head>
+    	    <body class="p-3 mb-2 bg-light text-black">
+
+		    <nav th:replace="navbar-jobseeker-home :: navbar-fragment"></nav>
+			    <div class="container">
+				<div class="row">
+				    <div class="col-md-12">
+				        <div class="card">
+				          <label style="margin: 0.5em;" ><a th:href = "@{/jobseeker/addeducation}"><i class="fa fa-plus" aria-hidden="true"></i>Add Education</a></label>
+				          <label style="margin: 0.5em;" ><a th:href = "@{/jobseeker/home}"> <i class="fa fa-arrow-left"></i>Back to Home</a></label>
+				         
+				         
+                           <h1 style="margin: 0.5em;" class="display-5">Please complete your Education infomation</h1>
+				            <div class="card-body">
+				                <h5 class="card-title text-uppercase mb-0">Educations:</h5>
+				            </div>
+				            
+				            <div class="table-responsive">
+				                <table class="table no-wrap user-table mb-0">
+				                  <thead>
+			                    <tr>
+				                      <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+				                      <th scope="col" class="border-0 text-uppercase font-medium">School</th>
+				                      <th scope="col" class="border-0 text-uppercase font-medium">Major</th>
+				                      <th scope="col" class="border-0 text-uppercase font-medium">Degree</th>	
+				                      <th scope="col" class="border-0 text-uppercase font-medium">Start Year</th>
+	  		                          <th scope="col" class="border-0 text-uppercase font-medium">Completion Year</th>
+	  		                          <th scope="col" class="border-0 text-uppercase font-medium">GPA</th>
+	  		                          <th scope="col" class="border-0 text-uppercase font-medium">Edit</th>
+	  		                          <th scope="col" class="border-0 text-uppercase font-medium">Delete</th>     
+			                    </tr>
+			                  </thead>
+			                    <tbody>
+	                                <tr th:each = "educationTemp, iterStat : ${educations}">
+	                                   
+	                                    <th  th:text = "${iterStat.index + 1}" scope="row"></th>
+	                                    <td>
+	                                        <span th:text = "${educationTemp.university_name}"> </span> 
+                                        </td>
+                                        <td th:text = "${educationTemp.major.major}" ></td>
+                                        <td th:text = "${educationTemp.certificateDegreeName.degree}" ></td>  
+                                         <td>
+                                         	  <span th:text = "${educationTemp.timeLine.startDate.getMonthValue()} + '. '"></span> 
+                                              <span th:text = "${educationTemp.timeLine.startDate.getYear()}"></span> 
+                                        </td>
+                                         <td>
+                                         	  <span th:text = "${educationTemp.timeLine.endDate.getMonthValue()} + '. '">,</span> 
+                                              <span th:text = "${educationTemp.timeLine.endDate.getYear()}"> </span> 
+                                        </td>              
+				                        <td th:text = "${educationTemp.cumulativeGpa}"></td>
+	                                 
+	                                    <td> <a th:href="@{/jobseeker/editEducation (educationid=${educationTemp.educationDetailId})}" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i class="fa fa-edit"></i></a>
+                                        </td>
+                                        <td>
+	                                    <form method="POST" th:action="@{/jobseeker/deleteEducation (educationid=${educationTemp.educationDetailId})}">
+	                                         <button type="submit" class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i class="fa fa-trash"></i></button>
+                                        </form>  
+                                         </td>              
+                                      </tr> 
+	                                </tbody>
+			                </table>
+			            </div>
+			        </div>
+			    </div>
+			 </div>
+			</div>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+    <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+
+        <title>Sign Up</title>
+    </head>
+    <body class="p-3 mb-2 bg-light text-black">
+        <div class="container justify-content-center w-50 p-3" style="background-color: #eeeeee; margin-top: 5em;">
+            <div class="form-group">
+                <label><a th:href = "@{/users/login}">Back to Login</a></label>
+            </div>
+             <div id="success-msg" class="alert alert-dark" th:if="${success}">
+                    You successfully signed up! Please continue to the <a th:href = "@{/users/login}">login</a> page.
+                </div>
+                
+            <h1 class="display-5">Sign Up</h1>
+           <form th:action = "@{/register}" method="POST" th:object = "${user}">
+               
+                <div class="alert alert-danger"  th:if="${#fields.hasAnyErrors()}">
+                    <span>Please fix the errors below:</span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputFirstName">First Name</label>
+                        <input type="input" name="firstName" class="form-control" id="inputFirstName" placeholder="Enter First Name" th:fields="*{firstName}" maxlength="20" required >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputLastName">Last Name</label>
+                        <input type="input" name="lastName" class="form-control" id="inputLastName" placeholder="Enter Last Name" th:fields = "*{lastName}" maxlength="20" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputUsername">Email</label>
+                        <input type="input" name="email" class="form-control" id="inputEmail" placeholder="Enter Email" th:fields = "*{email}"maxlength="20" required >
+                      <div class="help-block" th:if="${#fields.hasErrors('email')}">
+                             <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                        </div>
+                         <div class="help-block" th:if="${emailError}">
+                            <p  class="text-danger">The email is already taken</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword">Password</label>
+                        <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Enter Password" th:fields = "*{password}" maxlength="20" required>
+                        <p th:errors= "*{password}" class="text-danger">Password error</p>
+
+                    </div>
+                </div>
+                 
+                
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputAccountType">Are you Job Seeker or Recruiter</label>
+					      <select  th:field =  "*{accountType.userType}" id="inputUserType" class="form-control">
+					        <option th:each = "accountType : ${T(com.aabdenbaoui.management.entity.enums.UserTypeEnum).values()}"
+					                 th:value = "${accountType}" th:text="${accountType.name}"></option>
+					      </select>
+					      </div>				      
+					      
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="buttonSignUp">Sign Up</button>
+                    <div class="form-group" style="margin-top: 0.9em;">
+                    <label><a th:href = "@{/users/login}">Click here to login</a></label>
+                  </div>  
+                 
+                   <div class="form-group">
+                 </div>
+            </form>
+        </div>
+    </body>
+</html>

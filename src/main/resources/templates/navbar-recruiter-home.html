@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        
+        <title>Home</title>
+    </head>
+         <nav th:fragment = "navbar-fragment" class="navbar navbar-expand-lg navbar-light bg-light">
+			  <a class="navbar-brand" href="#">Home</a>
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			    <span class="navbar-toggler-icon">(current)</span>
+			  </button>
+			  <div class="collapse navbar-collapse" id="navbarNav">
+			    <ul class="navbar-nav">
+			      <li class="nav-item active">
+			        <a class="nav-link"th:href = "@{/recruiter/jobseekers}">Job Seekers<span class="sr-only"></span></a>
+			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link" th:href = "@{/recruiter/activeJobs}">Active Jobs</a>
+			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link" th:href = "@{/recruiter/disabledJobs}">Disabled Jobs</a>
+			      </li>
+			       <li class="nav-item">
+			        <a class="nav-link" th:href = "@{/recruiter/recruiters}">Recruiters</a>
+			      </li>
+			        <li class="nav-item">
+			        <a class="nav-link" th:href = "@{/recruiter/companyInformation}">My Company information</a>
+			      </li>
+			       
+			    </ul>
+			  </div>
+			  <div id="logoutDiv">
+                <form th:action="@{/logout}" method="POST">
+                    <button type="submit" class="btn btn-secondary float-right">Logout</button>
+                </form>
+            </div>
+ </nav>
+ </html>
